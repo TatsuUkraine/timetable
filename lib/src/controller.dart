@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:time_machine/time_machine.dart';
 
+import 'date_overlay_provider.dart';
 import 'event.dart';
 import 'event_provider.dart';
 import 'header/timetable_header.dart';
@@ -15,6 +16,7 @@ import 'visible_range.dart';
 class TimetableController<E extends Event> {
   TimetableController({
     @required this.eventProvider,
+    this.dateOverlayProvider,
     LocalDate initialDate,
     this.initialTimeRange = const InitialTimeRange.zoom(1),
     this.visibleRange = const VisibleRange.week(),
@@ -46,6 +48,9 @@ class TimetableController<E extends Event> {
 
   /// The [EventProvider] used for populating [Timetable] with events.
   final EventProvider<E> eventProvider;
+
+  /// The [DateOverlayProvider] used for populating [Timetable] with date overlays.
+  final DateOverlayProvider dateOverlayProvider;
 
   /// The initially visible time range.
   ///

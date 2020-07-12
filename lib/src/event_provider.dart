@@ -5,6 +5,7 @@ import 'package:rxdart/rxdart.dart';
 import 'package:time_machine/time_machine.dart';
 
 import 'controller.dart';
+import 'data_provider.dart';
 import 'event.dart';
 
 /// Provides [Event]s to a [TimetableController].
@@ -14,7 +15,7 @@ import 'event.dart';
 /// - [EventProvider.simpleStream], if you have a changing list of [Event]s.
 /// - [EventProvider.stream], if your events may change or you have many events
 ///   and only want to load a relevant subset.
-abstract class EventProvider<E extends Event> {
+abstract class EventProvider<E extends Event> implements DataProvider<E> {
   const EventProvider();
 
   /// Creates an [EventProvider] based on a fixed list of [Event]s.
@@ -55,6 +56,7 @@ abstract class EventProvider<E extends Event> {
     VoidCallback onDispose,
   }) = StreamEventProvider<E>;
 
+  @override
   void onVisibleDatesChanged(DateInterval visibleRange) {}
 
   Stream<Iterable<E>> getAllDayEventsIntersecting(DateInterval interval);
@@ -66,6 +68,7 @@ abstract class EventProvider<E extends Event> {
   /// discarded.
   ///
   /// This method is usually called by [TimetableController].
+  @override
   void dispose() {}
 }
 
