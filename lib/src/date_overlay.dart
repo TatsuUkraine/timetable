@@ -39,7 +39,7 @@ abstract class DateOverlay {
   String toString() => id.toString();
 }
 
-extension TimetableOverlay on DateOverlay {
+extension TimetableDateOverlay on DateOverlay {
   bool intersectsDate(LocalDate date) =>
       intersectsInterval(DateInterval(date, date));
 
@@ -60,13 +60,13 @@ extension TimetableOverlay on DateOverlay {
       DateInterval(start.calendarDate, endDateInclusive);
 }
 
-extension TimetableOverlayIterable<E extends DateOverlay> on Iterable<E> {
+extension TimetableDateOverlayIterable on Iterable<DateOverlay> {
 
-  Iterable<E> intersectingInterval(DateInterval interval) =>
+  Iterable<DateOverlay> intersectingInterval(DateInterval interval) =>
       where((e) => e.intersectsInterval(interval));
-  Iterable<E> intersectingDate(LocalDate date) =>
+  Iterable<DateOverlay> intersectingDate(LocalDate date) =>
       where((e) => e.intersectsDate(date));
 
-  List<E> sortedByStartLength() =>
+  List<DateOverlay> sortedByStartLength() =>
       sortedBy((e) => e.start).thenByDescending((e) => e.end);
 }

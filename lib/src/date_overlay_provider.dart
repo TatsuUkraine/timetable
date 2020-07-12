@@ -124,24 +124,24 @@ class StreamDateOverlayProvider extends DateOverlayProvider
     with VisibleDatesStreamDateOverlayProviderMixin {
   StreamDateOverlayProvider({@required this.overlayGetter, this.onDispose})
       : assert(overlayGetter != null) {
-    _events = visibleDates.switchMap(overlayGetter).publishValue();
-    _eventsSubscription = _events.connect();
+    _overlays = visibleDates.switchMap(overlayGetter).publishValue();
+    _overlaysSubscription = _overlays.connect();
   }
 
   final StreamedDateOverlayGetter overlayGetter;
   final VoidCallback onDispose;
 
-  ValueConnectableStream<Iterable<DateOverlay>> _events;
-  StreamSubscription<Iterable<DateOverlay>> _eventsSubscription;
+  ValueConnectableStream<Iterable<DateOverlay>> _overlays;
+  StreamSubscription<Iterable<DateOverlay>> _overlaysSubscription;
 
   @override
   Stream<Iterable<DateOverlay>> getOverlaysIntersecting(LocalDate date) {
-    return _events.map((events) => events.intersectingDate(date));
+    return _overlays.map((overlays) => overlays.intersectingDate(date));
   }
 
   @override
   void dispose() {
-    _eventsSubscription.cancel();
+    _overlaysSubscription.cancel();
     onDispose?.call();
     super.dispose();
   }

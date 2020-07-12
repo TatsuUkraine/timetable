@@ -49,7 +49,7 @@ class TimetableController<E extends Event> {
   /// The [EventProvider] used for populating [Timetable] with events.
   final EventProvider<E> eventProvider;
 
-  /// The [DateOverlayProvider] used for populating [Timetable] with events.
+  /// The [DateOverlayProvider] used for populating [Timetable] with date overlays.
   final DateOverlayProvider dateOverlayProvider;
 
   /// The initially visible time range.
