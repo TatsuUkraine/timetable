@@ -30,6 +30,7 @@ class TimetableThemeData {
     this.enablePartDayEventStacking,
     this.partDayEventMinimumDeltaForStacking,
     this.partDayStackedEventSpacing,
+    this.dateOverlayDecoration,
   })  : assert(allDayEventHeight == null || allDayEventHeight > 0),
         assert(minimumHourHeight == null || minimumHourHeight > 0),
         assert(maximumHourHeight == null || maximumHourHeight > 0),
@@ -162,6 +163,9 @@ class TimetableThemeData {
   /// Horizontal space between two parallel events stacked on top of each other.
   final double partDayStackedEventSpacing;
 
+  /// Date Overlay theme
+  final BoxDecoration dateOverlayDecoration;
+
   @override
   int get hashCode {
     return hashList([
@@ -187,6 +191,7 @@ class TimetableThemeData {
       enablePartDayEventStacking,
       partDayEventMinimumDeltaForStacking,
       partDayStackedEventSpacing,
+      dateOverlayDecoration,
     ]);
   }
 
@@ -221,7 +226,8 @@ class TimetableThemeData {
         other.enablePartDayEventStacking == enablePartDayEventStacking &&
         other.partDayEventMinimumDeltaForStacking ==
             partDayEventMinimumDeltaForStacking &&
-        other.partDayStackedEventSpacing == partDayStackedEventSpacing;
+        other.partDayStackedEventSpacing == partDayStackedEventSpacing &&
+        other.dateOverlayDecoration == dateOverlayDecoration;
   }
 }
 
