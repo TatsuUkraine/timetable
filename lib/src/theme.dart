@@ -18,6 +18,7 @@ class TimetableThemeData {
     this.dateIndicatorPattern,
     this.dateIndicatorDecoration,
     this.dateIndicatorTextStyle,
+    this.hourIndicatorPattern,
     this.allDayEventHeight,
     this.hourTextStyle,
     this.timeIndicatorColor,
@@ -88,6 +89,9 @@ class TimetableThemeData {
   /// See also:
   /// - [dateIndicatorTextStyle] for a list of possible states.
   final MaterialStateProperty<LocalDatePattern> dateIndicatorPattern;
+  
+  /// [LocalTimePattern] for formatting the time.
+  final LocalTimePattern hourIndicatorPattern;
 
   /// [Decoration] to show around the date (of month) indicator.
   ///
@@ -202,6 +206,7 @@ class TimetableThemeData {
       dateIndicatorPattern,
       dateIndicatorDecoration,
       dateIndicatorTextStyle,
+      hourIndicatorPattern,
       allDayEventHeight,
       hourTextStyle,
       timeIndicatorColor,
@@ -238,6 +243,7 @@ class TimetableThemeData {
         other.dateIndicatorPattern == dateIndicatorPattern &&
         other.dateIndicatorDecoration == dateIndicatorDecoration &&
         other.dateIndicatorTextStyle == dateIndicatorTextStyle &&
+        other.hourIndicatorPattern == hourIndicatorPattern &&
         other.allDayEventHeight == allDayEventHeight &&
         other.hourTextStyle == hourTextStyle &&
         other.timeIndicatorColor == timeIndicatorColor &&

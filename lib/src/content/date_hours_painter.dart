@@ -8,13 +8,14 @@ class DateHoursPainter extends CustomPainter {
   DateHoursPainter({
     @required this.textStyle,
     @required this.textDirection,
+    LocalTimePattern pattern,
   })  : assert(textStyle != null),
         assert(textDirection != null),
         _painters = [
           for (final h in innerDateHours)
             TextPainter(
               text: TextSpan(
-                text: _pattern.format(LocalTime(h, 0, 0)),
+                text: (pattern ?? _defaultPattern).format(LocalTime(h, 0, 0)),
                 style: textStyle,
               ),
               textDirection: textDirection,
@@ -22,7 +23,7 @@ class DateHoursPainter extends CustomPainter {
             ),
         ];
 
-  static final _pattern = LocalTimePattern.createWithCurrentCulture('HH:mm');
+  static final _defaultPattern = LocalTimePattern.createWithCurrentCulture('HH:mm');
 
   final TextStyle textStyle;
   final TextDirection textDirection;
