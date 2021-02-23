@@ -32,8 +32,6 @@ typedef OnEventBackgroundTapCallback = void Function(
   bool isAllDay,
 );
 
-const double hourColumnWidth = 48;
-
 class Timetable<E extends Event> extends StatelessWidget {
   const Timetable({
     Key key,
@@ -44,6 +42,8 @@ class Timetable<E extends Event> extends StatelessWidget {
     this.theme,
     this.dateHeaderBuilder,
     this.leadingHeaderBuilder,
+    this.hoursColumn,
+    this.hourColumnWidth = 48,
   })  : assert(controller != null),
         assert(eventBuilder != null),
         super(key: key);
@@ -72,6 +72,10 @@ class Timetable<E extends Event> extends StatelessWidget {
   /// If it's not provided, or the builder returns `null`, the day of week and
   /// day of month will be shown.
   final HeaderWidgetBuilder dateHeaderBuilder;
+  
+  final Widget hoursColumn;
+
+  final double hourColumnWidth;
 
   @override
   Widget build(BuildContext context) {
@@ -82,6 +86,7 @@ class Timetable<E extends Event> extends StatelessWidget {
           onEventBackgroundTap: onEventBackgroundTap,
           leadingHeaderBuilder: leadingHeaderBuilder,
           dateHeaderBuilder: dateHeaderBuilder,
+          hourColumnWidth: hourColumnWidth,
           allDayEventBuilder:
               allDayEventBuilder ?? (_, event, __) => eventBuilder(event),
         ),
@@ -89,6 +94,8 @@ class Timetable<E extends Event> extends StatelessWidget {
           child: TimetableContent<E>(
             controller: controller,
             eventBuilder: eventBuilder,
+            hoursColumn: hoursColumn,
+            hourColumnWidth: hourColumnWidth,
             onEventBackgroundTap: onEventBackgroundTap,
           ),
         ),

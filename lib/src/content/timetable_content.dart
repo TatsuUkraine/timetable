@@ -15,6 +15,8 @@ class TimetableContent<E extends Event> extends StatelessWidget {
     Key key,
     @required this.controller,
     @required this.eventBuilder,
+    this.hoursColumn,
+    this.hourColumnWidth,
     this.onEventBackgroundTap,
   })  : assert(controller != null),
         assert(eventBuilder != null),
@@ -23,6 +25,8 @@ class TimetableContent<E extends Event> extends StatelessWidget {
   final TimetableController<E> controller;
   final EventBuilder<E> eventBuilder;
   final OnEventBackgroundTapCallback onEventBackgroundTap;
+  final Widget hoursColumn;
+  final double hourColumnWidth;
 
   @override
   Widget build(BuildContext context) {
@@ -37,19 +41,20 @@ class TimetableContent<E extends Event> extends StatelessWidget {
           (timetableTheme?.maximumHourHeight ?? 64) * TimeConstants.hoursPerDay,
       child: Row(
         children: <Widget>[
-          Container(
+          SizedBox(
             width: hourColumnWidth,
-            padding: EdgeInsets.only(right: 12),
-            child: CustomPaint(
-              painter: DateHoursPainter(
-                textStyle: timetableTheme?.hourTextStyle ??
-                    theme.textTheme.caption.copyWith(
-                      color: context.theme.disabledOnBackground,
-                    ),
-                textDirection: context.directionality,
-                pattern: timetableTheme.hourIndicatorPattern,
+            child: hoursColumn ?? Padding(
+              padding: const EdgeInsets.only(right: 12),
+              child: CustomPaint(
+                painter: DateHoursPainter(
+                  textStyle: timetableTheme?.hourTextStyle ??
+                      theme.textTheme.caption.copyWith(
+                        color: context.theme.disabledOnBackground,
+                      ),
+                  textDirection: context.directionality,
+                ),
+                size: Size.infinite,
               ),
-              size: Size.infinite,
             ),
           ),
           Expanded(
