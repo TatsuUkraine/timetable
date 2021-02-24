@@ -7,7 +7,7 @@ import '../event.dart';
 import '../theme.dart';
 import '../timetable.dart';
 import '../utils/vertical_zoom.dart';
-import 'date_hours_painter.dart';
+import 'hours_column.dart';
 import 'multi_date_content.dart';
 
 class TimetableContent<E extends Event> extends StatelessWidget {
@@ -15,7 +15,7 @@ class TimetableContent<E extends Event> extends StatelessWidget {
     Key key,
     @required this.controller,
     @required this.eventBuilder,
-    this.hoursColumn,
+    this.hourBuilder,
     this.hourColumnWidth,
     this.onEventBackgroundTap,
   })  : assert(controller != null),
@@ -25,7 +25,7 @@ class TimetableContent<E extends Event> extends StatelessWidget {
   final TimetableController<E> controller;
   final EventBuilder<E> eventBuilder;
   final OnEventBackgroundTapCallback onEventBackgroundTap;
-  final Widget hoursColumn;
+  final HourWidgetBuilder hourBuilder;
   final double hourColumnWidth;
 
   @override
@@ -43,18 +43,13 @@ class TimetableContent<E extends Event> extends StatelessWidget {
         children: <Widget>[
           SizedBox(
             width: hourColumnWidth,
-            child: hoursColumn ?? Padding(
-              padding: const EdgeInsets.only(right: 12),
-              child: CustomPaint(
-                painter: DateHoursPainter(
-                  textStyle: timetableTheme?.hourTextStyle ??
-                      theme.textTheme.caption.copyWith(
-                        color: context.theme.disabledOnBackground,
-                      ),
-                  textDirection: context.directionality,
-                ),
-                size: Size.infinite,
-              ),
+            child: HoursColumn(
+              builder: hourBuilder,
+              textDirection: context.directionality,
+              textStyle: timetableTheme?.hourTextStyle ??
+                  theme.textTheme.caption.copyWith(
+                    color: context.theme.disabledOnBackground,
+                  ),
             ),
           ),
           Expanded(

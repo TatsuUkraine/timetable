@@ -23,6 +23,11 @@ typedef HeaderWidgetBuilder = Widget Function(
   LocalDate date,
 );
 
+typedef HourWidgetBuilder = Widget Function(
+  BuildContext context,
+  LocalTime time,
+);
+
 /// Signature for [Timetable.onEventBackgroundTap].
 ///
 /// `start` contains the time that the user tapped on. `isAllDay` indicates that
@@ -42,7 +47,7 @@ class Timetable<E extends Event> extends StatelessWidget {
     this.theme,
     this.dateHeaderBuilder,
     this.leadingHeaderBuilder,
-    this.hoursColumn,
+    this.hourBuilder,
     this.hourColumnWidth = 48,
   })  : assert(controller != null),
         assert(eventBuilder != null),
@@ -72,9 +77,11 @@ class Timetable<E extends Event> extends StatelessWidget {
   /// If it's not provided, or the builder returns `null`, the day of week and
   /// day of month will be shown.
   final HeaderWidgetBuilder dateHeaderBuilder;
-  
-  final Widget hoursColumn;
 
+  /// Hour label builder. If not provided default `HH:mm` format will be used
+  final HourWidgetBuilder hourBuilder;
+
+  /// Hour column width
   final double hourColumnWidth;
 
   @override
@@ -94,7 +101,7 @@ class Timetable<E extends Event> extends StatelessWidget {
           child: TimetableContent<E>(
             controller: controller,
             eventBuilder: eventBuilder,
-            hoursColumn: hoursColumn,
+            hourBuilder: hourBuilder,
             hourColumnWidth: hourColumnWidth,
             onEventBackgroundTap: onEventBackgroundTap,
           ),
