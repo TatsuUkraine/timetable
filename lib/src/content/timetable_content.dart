@@ -7,7 +7,7 @@ import '../event.dart';
 import '../theme.dart';
 import '../timetable.dart';
 import '../utils/vertical_zoom.dart';
-import 'date_hours_painter.dart';
+import 'hours_column.dart';
 import 'multi_date_content.dart';
 
 class TimetableContent<E extends Event> extends StatelessWidget {
@@ -15,6 +15,8 @@ class TimetableContent<E extends Event> extends StatelessWidget {
     Key key,
     @required this.controller,
     @required this.eventBuilder,
+    this.hourBuilder,
+    this.hourColumnWidth,
     this.onEventBackgroundTap,
   })  : assert(controller != null),
         assert(eventBuilder != null),
@@ -23,6 +25,8 @@ class TimetableContent<E extends Event> extends StatelessWidget {
   final TimetableController<E> controller;
   final EventBuilder<E> eventBuilder;
   final OnEventBackgroundTapCallback onEventBackgroundTap;
+  final HourWidgetBuilder hourBuilder;
+  final double hourColumnWidth;
 
   @override
   Widget build(BuildContext context) {
@@ -37,18 +41,15 @@ class TimetableContent<E extends Event> extends StatelessWidget {
           (timetableTheme?.maximumHourHeight ?? 64) * TimeConstants.hoursPerDay,
       child: Row(
         children: <Widget>[
-          Container(
+          SizedBox(
             width: hourColumnWidth,
-            padding: EdgeInsets.only(right: 12),
-            child: CustomPaint(
-              painter: DateHoursPainter(
-                textStyle: timetableTheme?.hourTextStyle ??
-                    theme.textTheme.caption.copyWith(
-                      color: context.theme.disabledOnBackground,
-                    ),
-                textDirection: context.directionality,
-              ),
-              size: Size.infinite,
+            child: HoursColumn(
+              builder: hourBuilder,
+              textDirection: context.directionality,
+              textStyle: timetableTheme?.hourTextStyle ??
+                  theme.textTheme.caption.copyWith(
+                    color: context.theme.disabledOnBackground,
+                  ),
             ),
           ),
           Expanded(

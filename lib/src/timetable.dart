@@ -23,6 +23,11 @@ typedef HeaderWidgetBuilder = Widget Function(
   LocalDate date,
 );
 
+typedef HourWidgetBuilder = Widget Function(
+  BuildContext context,
+  LocalTime time,
+);
+
 /// Signature for [Timetable.onEventBackgroundTap].
 ///
 /// `start` contains the time that the user tapped on. `isAllDay` indicates that
@@ -31,8 +36,6 @@ typedef OnEventBackgroundTapCallback = void Function(
   LocalDateTime start,
   bool isAllDay,
 );
-
-const double hourColumnWidth = 48;
 
 class Timetable<E extends Event> extends StatelessWidget {
   const Timetable({
@@ -44,6 +47,8 @@ class Timetable<E extends Event> extends StatelessWidget {
     this.theme,
     this.dateHeaderBuilder,
     this.leadingHeaderBuilder,
+    this.hourBuilder,
+    this.hourColumnWidth = 48,
   })  : assert(controller != null),
         assert(eventBuilder != null),
         super(key: key);
@@ -73,6 +78,12 @@ class Timetable<E extends Event> extends StatelessWidget {
   /// day of month will be shown.
   final HeaderWidgetBuilder dateHeaderBuilder;
 
+  /// Hour label builder. If not provided default `HH:mm` format will be used
+  final HourWidgetBuilder hourBuilder;
+
+  /// Hour column width
+  final double hourColumnWidth;
+
   @override
   Widget build(BuildContext context) {
     Widget child = Column(
@@ -82,6 +93,7 @@ class Timetable<E extends Event> extends StatelessWidget {
           onEventBackgroundTap: onEventBackgroundTap,
           leadingHeaderBuilder: leadingHeaderBuilder,
           dateHeaderBuilder: dateHeaderBuilder,
+          hourColumnWidth: hourColumnWidth,
           allDayEventBuilder:
               allDayEventBuilder ?? (_, event, __) => eventBuilder(event),
         ),
@@ -89,6 +101,8 @@ class Timetable<E extends Event> extends StatelessWidget {
           child: TimetableContent<E>(
             controller: controller,
             eventBuilder: eventBuilder,
+            hourBuilder: hourBuilder,
+            hourColumnWidth: hourColumnWidth,
             onEventBackgroundTap: onEventBackgroundTap,
           ),
         ),
